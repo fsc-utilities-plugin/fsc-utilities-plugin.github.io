@@ -1,0 +1,128 @@
+
+/* TAG STYLE 1 */
+/*#news-headlines::after {*/
+/*    display: inline-block;*/
+/*    border: 13px solid;*/
+/*    border-color: transparent transparent transparent #fff;*/
+/*    height: 0;*/
+/*    width: 0;*/
+/*    position: absolute;*/
+/*    right: 97px;*/
+/*    top: -3px;*/
+/*    content: "";*/
+/*}*/
+/* TAG STYLE 1 */
+
+/* TAG STYLE 2 */
+/*#news-headlines::after {*/
+/*    display: inline-block;*/
+/*    border: 13px solid;*/
+/*    border-color: #fff transparent #fff #fff;*/
+/*    height: 0;*/
+/*    width: 0;*/
+/*    position: absolute;*/
+/*    right: 110px;*/
+/*    top: -3px;*/
+/*    content: "";*/
+/*	  z-index: 1*/
+/*}*/
+/* TAG STYLE 2 */
+
+
+
+.ticker-container-badge {
+	height: 20px !important;
+	width: 100%;
+	text-align: center;
+	position: relative;
+	overflow: hidden;
+	background-color: #EC0B43;
+	color: white;
+	/*background-color: white; */
+	/*color: red;*/
+	/*text-shadow: 2px 2px #7F7F7F;*/
+	font-size: 0.7em;
+	font-weight: bold;
+	margin: 0;
+}
+.ticker-container-badge .ticker-caption {
+	height: 50%;
+	width: 100%;
+	background-color: #EC0B43;
+	display: table;
+	position: absolute;
+	color: white;
+	font-size: 0.6em;
+	z-index: 1;
+}
+.ticker-container-badge .ticker-caption p {
+	height: inherit;
+	width: inherit;
+	display: table-cell;
+	vertical-align: middle;
+	font-weight: bold;
+}
+.ticker-container-badge ul {
+	list-style: none;
+	padding: 0;
+	height: auto;
+}
+.ticker-container-badge ul div {
+	overflow: hidden;
+	position: absolute;
+	z-index: 0;
+	display: inline;
+	min-width: 100%;
+	left: 0;
+	height: 50%;
+	transition: 0.25s ease-in-out;
+}
+.ticker-container-badge ul div.ticker-active {
+	top: 30px;
+}
+.ticker-container-badge ul div.not-active {
+	top: 60px;
+}
+.ticker-container-badge ul div.remove {
+	top: 0;
+}
+.ticker-container-badge ul div li {
+	padding: 2px 0;
+}
+.ticker-container-badge ul div li a {
+	color: #EC0B43;
+}
+
+.ticker-container-badge {
+	height: 19px;
+	text-align: left;
+}
+.ticker-container-badge .ticker-caption {
+	height: 100%;
+	width: 150px;
+	background: url('../img/ticker-caption-bg.png');
+}
+.ticker-container-badge .ticker-caption p {
+	text-align: left;
+	padding-left: 7px;
+}
+.ticker-container-badge ul {
+	/* margin-left: 170px; */
+	height: 100%;
+	position: absolute;
+	top: 3px;
+	right: 34px;
+}
+.ticker-container-badge ul div {
+	height: 100%;
+	left: 5px;
+}
+.ticker-container-badge ul div.ticker-active {
+	top: 0;
+}
+.ticker-container-badge ul div.not-active {
+	top: 30px;
+}
+.ticker-container-badge ul div.remove {
+	top: -30px;
+}

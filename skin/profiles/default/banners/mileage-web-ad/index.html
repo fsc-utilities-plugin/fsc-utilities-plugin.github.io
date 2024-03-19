@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" type="text/css" href="./assets/css/news-badge.css">
+    <link rel="stylesheet" type="text/css" href="./assets/css/ticker.css">
+    <meta http-equiv="refresh" content="900">
+    <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Expires" CONTENT="-1">
+    <title>Thien Nguyen Productions - FSC Utilities Plugin</title>
+</head>
+
+<body>
+    <div id="main">
+        <img id="main-thumbnail" src="./assets/img/fscup_mini_bg.png" alt="Logo" />
+        <!-- https://i1-vnexpress.vnecdn.net/2021/09/13/c37e8e5f879dee072d8f2eaabf-163-6760-3334-1631528122.jpg?w=1200&h=0&q=100&dpr=1&fit=crop&s=p2fXc2ZjkDxQPC4ewB5kmA -->
+        <!--<img id="main-thumbnail" src="https://i1-vnexpress.vnecdn.net/2021/09/13/c37e8e5f879dee072d8f2eaabf-163-6760-3334-1631528122.jpg?w=1200&h=0&q=100&dpr=1&fit=crop&s=p2fXc2ZjkDxQPC4ewB5kmA" alt="Logo" />-->
+        <div id="news-badge" class="ticker-container-badge" onclick="refreshPage()">
+            <ul>
+              <div>
+                <li><span class="d-flex align-items-center">News</span></li>
+              </div>
+              <div>
+                <li><span id="clock" class="d-flex align-items-center">19:00</span></li>
+              </div>
+              <!-- <div>
+                <li><span id="weather-label-1" class="d-flex align-items-center">1</span></li>
+              </div> -->
+            </ul>
+        </div>
+        <div id="news-headlines" class="ticker-container">
+            <!-- <div class="ticker-caption">
+              <p>Breaking News</p>
+            </div> -->
+            <div id="news-container" class="container mt-5">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="d-flex justify-content-between align-items-center breaking-news bg-white">
+                            <!--<marquee scrolldelay="90" class="news-scroll" behavior="scroll" direction="left" onmouseover="this.stop();" onmouseout="this.start();">-->
+                                <!--Qyat dey qyat-->
+                            <!--    <div id="rss-content"></div>-->
+                            <!--</marquee>-->
+                            <div class="marquee news-scroll">
+                                <div id="rss-content"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--<ul>-->
+            <!--  <div>-->
+            <!--    <li><span>FSC Utilities Plugin</span></li>-->
+            <!--  </div>-->
+            <!--  <div>-->
+            <!--    <li><span>Thien Nguyen Productions</span></li>-->
+            <!--  </div>-->
+            <!--</ul>-->
+          </div>
+    </div>
+    <script>
+        document.addEventListener("contextmenu", function (event) {
+            event.preventDefault();
+        }, false);
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    
+    <script src="./assets/js/jquery.marquee.min.js"></script>
+    
+    <script>
+    $(function(){
+      var $mwo = $('.marquee-with-options');
+    //   $('.marquee').marquee();
+      $('.marquee-with-options').marquee({
+        //speed in milliseconds of the marquee
+        speed: 2000000,
+        //gap in pixe0ls between the tickers
+        gap: 50,
+        //gap in pixels between the tickers
+        delayBeforeStart: 0,
+        //'left' or 'right'
+        direction: 'left',
+        //true or false - should the marquee be duplicated to show an effect of continues flow
+        duplicated: true,
+        //on hover pause the marquee - using jQuery plugin https://github.com/tobia/Pause
+        pauseOnHover: true
+      });
+    
+      //Direction upward
+      $('.marquee-vert').marquee({
+        direction: 'up',
+        speed: 1500
+      });
+    
+      //pause and resume links
+      $('.pause').click(function(e){
+        e.preventDefault();
+        $mwo.trigger('pause');
+      });
+      $('.resume').click(function(e){
+        e.preventDefault();
+        $mwo.trigger('resume');
+      });
+      //toggle
+      $('.toggle').hover(function(e){
+        $mwo.trigger('pause');
+      },function(){
+        $mwo.trigger('resume');
+      })
+      .click(function(e){
+        e.preventDefault();
+      })
+    });
+    </script>
+    
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var feedURL = "https://vnexpress.net/rss/tin-moi-nhat.rss";
+            $.ajax({
+                    url: 'https://api.rss2json.com/v1/api.json',
+                    method: 'GET',
+                    dataType: 'json',
+                    data: {
+                        rss_url: feedURL,
+                        api_key: 'kf09w0ad555tjlwzjmhikdirflxquyx6quqerwpo', // put your api key here
+                        count: 50
+                    }
+            }).done(function (response) {
+                if(response.status != 'ok'){ throw response.message; }
+            
+                var default_text = "<a href='https://fsc-utilities-plugin.netlify.app/' target='_blank'>FSC Utilities Plugin by Thien Nguyen </a> - Breaking news <span class='dot'></span> "
+                var html_news = ""
+                for(var i in response.items){
+                    var item = response.items[i];
+                    // console.log(item);
+                    html_news = html_news + "<a data-thumbnail='"+ item.thumbnail +"'" + " href='" + item.link + "' target='_blank' onmouseout='fxMouseOut(this)'  onmouseover='fxMouseOver(this)' >" + item.title + "</a> <span class='dot'></span> "
+                }
+                
+                $('#rss-content').html(default_text + html_news)
+                $('.marquee').marquee({
+                    pauseOnHover: true,
+                    delayBeforeStart: 1000,
+                    speed: 50,
+                });
+                
+            });
+            
+            
+            var weatherUrl = "http://api.openweathermap.org/data/2.5/weather?id=1566083&appid=59c485348c73d924a6714ba961a099db&lang=vi&units=metric";
+            $.ajax({
+                    url: weatherUrl,
+                    method: 'GET',
+                    dataType: 'json',
+                    data: {}
+            }).done(function (response) {
+                console.log("response",response.main.temp);
+                $('#weather-label-1').html(Math.round(response.main.temp) + "°C")
+                // var icon_el = "<img src='http://openweathermap.org/img/wn/10d.png' alt='weather icon' width='50px' height='50px' />"
+                // $('#weather-label-1').html(icon_el);
+                
+            });
+    
+        });
+        
+        // Weather
+        
+        
+        
+        function changeThubmnail(imgUrl) {
+            $('#main-thumbnail').fadeOut().queue(function() {
+               var img = $(this);
+               img.attr('src', imgUrl);
+               img.fadeIn();
+               img.dequeue();
+            });
+        }
+        
+        function fxMouseOver(newsItem) {
+            var thumbnailURL = newsItem.attributes['data-thumbnail'].value;
+            changeThubmnail(thumbnailURL);
+        }
+        
+        function fxMouseOut(item) {
+            // alert('test');
+            changeThubmnail('./assets/img/fscup_mini_bg.png');
+        }
+    </script>
+    <script src="./assets/js/ticker.js"></script>
+    <!---->
+    <script>
+        var serverTime = new Date();
+        function addLeadingZero(num, size) {
+            num = num.toString();
+            while (num.length < size) num = "0" + num;
+            return num;
+        }
+    
+        function updateTime() {
+            /// Increment serverTime by 1 second and update the html for '#time'
+            serverTime = new Date(serverTime.getTime() + 1000);
+            var currtime3 = (addLeadingZero(serverTime.getHours(),2) + ":"+ addLeadingZero(serverTime.getMinutes(), 2));
+            $('#clock').html(currtime3);
+        }
+        
+        $(function() {
+            updateTime();
+            setInterval(updateTime, 1000);
+        });
+        
+        function refreshPage(){
+            window.location.reload();
+        }
+        
+    </script>
+</body>
+
+</html>
